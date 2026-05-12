@@ -1,0 +1,41 @@
+15 января 2024 г. 10:30:15
+[ERROR] Exception in Form1: System.NullReferenceException
+Object reference not set to an instance of an object.
+   at Form1.btnSubmit_Click()
+
+20 января 2024 г. 14:22:33
+[WARNING] Form2 validation failed
+Invalid format detected in textBox1
+
+25 февраля 2024 г. 09:15:42
+[ERROR] Form3 database connection error
+Cannot connect to database server
+   at Form3.LoadData()
+
+10 марта 2024 г. 16:45:10
+[INFO] Form1 initialized successfully
+All components loaded
+
+15 марта 2024 г. 11:20:05
+[ERROR] Exception in Form2: System.FormatException
+Input string was not in a correct format.
+   at System.Int32.Parse(String s)
+   at Form2.ProcessInput()
+
+20 апреля 2024 г. 13:30:22
+[WARNING] Form4 performance issue detected
+Response time exceeded threshold
+
+25 апреля 2024 г. 08:55:17
+[ERROR] Form1 unhandled exception
+System.InvalidOperationException: Operation is not valid
+   at Form1.UpdateUI()
+
+5 мая 2024 г. 12:10:30
+[INFO] Form5 started
+User session initialized
+
+10 мая 2024 г. 15:40:55
+[ERROR] Form3 timeout exception
+Request timeout after 30 seconds
+   at Form3.FetchData()

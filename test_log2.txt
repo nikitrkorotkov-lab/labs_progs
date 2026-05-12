@@ -1,0 +1,40 @@
+10 января 2024 г. 08:15:30
+[ERROR] Form1 initialization failed
+System.InvalidOperationException: Cannot initialize form
+   at Form1.InitializeComponents()
+
+15 января 2024 г. 12:45:22
+[INFO] Form2 loaded successfully
+All controls initialized
+
+20 февраля 2024 г. 16:30:10
+[ERROR] Form3 database error
+Connection timeout exceeded
+   at Form3.ConnectToDatabase()
+
+25 февраля 2024 г. 09:20:45
+[WARNING] Form1 validation warning
+Input data may be incorrect
+
+5 марта 2024 г. 14:55:33
+[ERROR] Form4 network exception
+Unable to reach server
+   at Form4.SendRequest()
+
+10 марта 2024 г. 11:10:20
+[INFO] Form2 processing completed
+Data saved successfully
+
+15 апреля 2024 г. 13:25:15
+[ERROR] Form5 file not found
+System.IO.FileNotFoundException
+   at Form5.LoadFile()
+
+20 апреля 2024 г. 10:40:50
+[WARNING] Form3 memory warning
+High memory usage detected
+
+25 мая 2024 г. 15:05:40
+[ERROR] Form1 unhandled exception
+System.NullReferenceException
+   at Form1.ProcessData()

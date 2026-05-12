@@ -1,0 +1,40 @@
+5 января 2024 г. 07:30:12
+[ERROR] Form2 startup error
+Failed to load configuration
+   at Form2.LoadConfig()
+
+12 января 2024 г. 13:20:45
+[INFO] Form1 started
+User session initialized
+
+18 февраля 2024 г. 10:15:30
+[ERROR] Form4 authentication failed
+Invalid credentials provided
+   at Form4.Authenticate()
+
+22 февраля 2024 г. 14:50:20
+[WARNING] Form3 performance degradation
+Response time increased
+
+28 марта 2024 г. 09:35:15
+[ERROR] Form5 parsing error
+Invalid data format
+   at Form5.ParseData()
+
+3 апреля 2024 г. 16:45:50
+[INFO] Form2 update completed
+Version 2.0 installed
+
+8 апреля 2024 г. 11:25:40
+[ERROR] Form1 timeout exception
+Operation timed out after 30 seconds
+   at Form1.ExecuteOperation()
+
+15 мая 2024 г. 12:10:25
+[WARNING] Form4 disk space warning
+Low disk space available
+
+20 мая 2024 г. 08:55:35
+[ERROR] Form3 critical error
+System.OutOfMemoryException
+   at Form3.AllocateMemory()
