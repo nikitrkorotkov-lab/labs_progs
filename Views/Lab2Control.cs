@@ -13,9 +13,11 @@ namespace labs_prog.Views
         private readonly Lab2Service _service = new Lab2Service();
         private readonly Random _rnd = new Random();
 
-        private const int ArraySize = 10;
         private const int RangeMin = -40;
         private const int RangeMax = 30;
+
+        private List<int> _generatedInput;
+        private List<int> _lastOutput;
 
         public Lab2Control()
         {
@@ -23,7 +25,6 @@ namespace labs_prog.Views
             ConfigureGrids();
         }
 
-        // Настройка внешнего вида таблиц
         private void ConfigureGrids()
         {
             foreach (var dgv in new[] { dgvInput, dgvOutput })
@@ -35,31 +36,61 @@ namespace labs_prog.Views
             }
         }
 
-        // Показать массив в таблице (горизонтально: 1 строка, N столбцов)
-        private void ShowInGrid(DataGridView dgv, List<int> arr)
+        private void ShowInGrid(DataGridView dgv, List<int> arr, Label infoLabel, string arrayName)
+        {
+            int limit = (int)nudDisplayLimit.Value;
+            int shown = Math.Min(arr.Count, limit);
+
+            dgv.Columns.Clear();
+            dgv.Rows.Clear();
+
+            for (int i = 0; i < shown; i++)
+            {
+                dgv.Columns.Add($"c{i}", $"[{i}]");
+                dgv.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            if (shown > 0)
+            {
+                dgv.Rows.Add();
+                for (int i = 0; i < shown; i++)
+                    dgv.Rows[0].Cells[i].Value = arr[i];
+            }
+
+            if (infoLabel != null)
+            {
+                infoLabel.Text = arr.Count > limit
+                    ? $"показано первых {shown} из {arr.Count} элементов"
+                    : $"показаны все {arr.Count} элементов";
+            }
+        }
+
+        private void ShowInGridFull(DataGridView dgv, List<int> arr)
         {
             dgv.Columns.Clear();
             dgv.Rows.Clear();
 
-            // Создаём столбцы с индексами [0], [1], [2]...
             for (int i = 0; i < arr.Count; i++)
             {
                 dgv.Columns.Add($"c{i}", $"[{i}]");
                 dgv.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
-            // Заполняем единственную строку значениями
             if (arr.Count > 0)
             {
                 dgv.Rows.Add();
                 for (int i = 0; i < arr.Count; i++)
                     dgv.Rows[0].Cells[i].Value = arr[i];
             }
+
+            lblInputInfo.Text = $"ручной ввод: {arr.Count} элементов (полностью редактируемо)";
         }
 
-        // Считать массив из таблицы (для ручного режима)
         private List<int> ReadFromGrid()
         {
+            if (_generatedInput != null)
+                return new List<int>(_generatedInput);
+
             var result = new List<int>();
 
             if (dgvInput.Columns.Count == 0)
@@ -75,7 +106,6 @@ namespace labs_prog.Views
             return result;
         }
 
-        // Логирование исключения в TextBox и в файл
         private void LogException(Exception ex)
         {
             string msg = $"[{DateTime.Now:dd.MM.yyyy HH:mm:ss}] " +
@@ -85,65 +115,74 @@ namespace labs_prog.Views
 
             txtExceptions.AppendText(msg);
 
-            // Запись в файл рядом с .exe
             try
             {
                 File.AppendAllText("exceptions_lab2.log", msg, System.Text.Encoding.UTF8);
             }
-            catch { /* файл может быть недоступен — не критично */ }
+            catch { }
+
+            ExceptionLogger.LogException(ex);
         }
 
-        // Кнопка: Инициализировать массив
+        private void nudDisplayLimit_ValueChanged(object sender, EventArgs e)
+        {
+            if (_generatedInput != null)
+                ShowInGrid(dgvInput, _generatedInput, lblInputInfo, "входной");
+            if (_lastOutput != null)
+                ShowInGrid(dgvOutput, _lastOutput, lblOutputInfo, "результирующий");
+        }
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             try
             {
+                AppStatus.Report("Лаб.2: формирование массива", -1);
+                int arraySize = (int)nudArraySize.Value;
                 var arr = new List<int>();
 
                 if (rbRandom.Checked)
                 {
-                    // Полностью случайный массив
-                    for (int i = 0; i < ArraySize; i++)
+                    for (int i = 0; i < arraySize; i++)
                         arr.Add(_rnd.Next(RangeMin, RangeMax + 1));
 
                     dgvInput.ReadOnly = true;
+                    _generatedInput = arr;
+                    ShowInGrid(dgvInput, arr, lblInputInfo, "входной");
                 }
                 else if (rbFrequency.Checked)
                 {
-                    // Заданное число появляется заданное количество раз
                     if (!int.TryParse(txtFreqValue.Text, out int freqVal))
                         throw new FormatException("Укажите корректное 'Число' для частотного заполнения.");
                     if (!int.TryParse(txtFreqCount.Text, out int freqCount)
-                        || freqCount < 1 || freqCount > ArraySize)
+                        || freqCount < 1 || freqCount > arraySize)
                         throw new ArgumentOutOfRangeException(
-                            $"'Количество раз' должно быть от 1 до {ArraySize}.");
+                            $"'Количество раз' должно быть от 1 до {arraySize}.");
 
-                    // Добавляем частотное число
                     for (int i = 0; i < freqCount; i++)
                         arr.Add(freqVal);
-                    
-                    // Остальные — случайные
-                    for (int i = freqCount; i < ArraySize; i++)
+
+                    for (int i = freqCount; i < arraySize; i++)
                         arr.Add(_rnd.Next(RangeMin, RangeMax + 1));
 
-                    // Перемешиваем, чтобы частотное число не стояло кучей
                     arr = arr.OrderBy(_ => _rnd.Next()).ToList();
                     dgvInput.ReadOnly = true;
+                    _generatedInput = arr;
+                    ShowInGrid(dgvInput, arr, lblInputInfo, "входной");
                 }
-                else // ручной режим
+                else
                 {
-                    // Инициализируем нулями — пользователь меняет сам
-                    for (int i = 0; i < ArraySize; i++)
+                    for (int i = 0; i < arraySize; i++)
                         arr.Add(0);
 
-                    dgvInput.ReadOnly = false; // разрешить редактирование
+                    dgvInput.ReadOnly = false;
+                    _generatedInput = null;
+                    ShowInGridFull(dgvInput, arr);
                 }
 
-                ShowInGrid(dgvInput, arr);
-                
-                // Очищаем результаты предыдущего запуска
                 dgvOutput.Columns.Clear();
                 dgvOutput.Rows.Clear();
+                lblOutputInfo.Text = "";
+                _lastOutput = null;
                 txtSteps.Clear();
                 lblTimeNoThread.Text = "Без потоков: —";
                 lblTimeThread.Text   = "С потоками:  —";
@@ -154,9 +193,12 @@ namespace labs_prog.Views
                 MessageBox.Show(ex.Message, "Ошибка генерации",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            finally
+            {
+                AppStatus.Idle();
+            }
         }
 
-        // Кнопка: Выполнить БЕЗ потоков
         private void btnNoThread_Click(object sender, EventArgs e)
         {
             try
@@ -165,15 +207,16 @@ namespace labs_prog.Views
                 if (!int.TryParse(txtK.Text, out int k))
                     throw new FormatException("Введите целое число k.");
 
-                // Замеряем время выполнения
+                AppStatus.Report("Лаб.2: обработка массива (без потоков)", -1);
                 var sw = Stopwatch.StartNew();
                 var result = _service.ProcessWithoutThreads(input, k);
                 sw.Stop();
 
-                ShowInGrid(dgvOutput, result);
+                _lastOutput = result;
+                ShowInGrid(dgvOutput, result, lblOutputInfo, "результирующий");
                 lblTimeNoThread.Text = $"Без потоков: {sw.Elapsed.TotalMilliseconds:F4} мс";
 
-                ShowSteps(input, k); // показать промежуточные шаги
+                ShowSteps(input, k);
             }
             catch (Exception ex)
             {
@@ -181,9 +224,12 @@ namespace labs_prog.Views
                 MessageBox.Show(ex.Message, "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                AppStatus.Idle();
+            }
         }
 
-        // Кнопка: Выполнить С потоками
         private void btnThreaded_Click(object sender, EventArgs e)
         {
             try
@@ -192,12 +238,13 @@ namespace labs_prog.Views
                 if (!int.TryParse(txtK.Text, out int k))
                     throw new FormatException("Введите целое число k.");
 
-                // Замеряем время выполнения
+                AppStatus.Report("Лаб.2: обработка массива (с потоками)", -1);
                 var sw = Stopwatch.StartNew();
                 var result = _service.ProcessWithThreads(input, k);
                 sw.Stop();
 
-                ShowInGrid(dgvOutput, result);
+                _lastOutput = result;
+                ShowInGrid(dgvOutput, result, lblOutputInfo, "результирующий");
                 lblTimeThread.Text = $"С потоками:  {sw.Elapsed.TotalMilliseconds:F4} мс";
 
                 ShowSteps(input, k);
@@ -208,24 +255,35 @@ namespace labs_prog.Views
                 MessageBox.Show(ex.Message, "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                AppStatus.Idle();
+            }
         }
 
-        // Показать промежуточные результаты каждого шага
         private void ShowSteps(List<int> input, int k)
         {
             txtSteps.Clear();
-            txtSteps.AppendText($"Исходный:          [{string.Join(", ", input)}]\r\n\r\n");
+
+            string Preview(List<int> a)
+            {
+                const int maxShow = 30;
+                if (a.Count <= maxShow) return $"[{string.Join(", ", a)}]";
+                return $"[{string.Join(", ", a.Take(maxShow))}, ... ещё {a.Count - maxShow}]";
+            }
+
+            txtSteps.AppendText($"Исходный ({input.Count} эл.):\r\n{Preview(input)}\r\n\r\n");
 
             var s1 = _service.DeleteSameDigits(input);
-            txtSteps.AppendText($"Шаг 1 (удалить одинаковые):\r\n[{string.Join(", ", s1)}]\r\n\r\n");
+            txtSteps.AppendText($"Шаг 1 (удалить одинаковые), {s1.Count} эл.:\r\n{Preview(s1)}\r\n\r\n");
 
             var s2 = _service.InsertBeforeDigit1(s1, k);
-            txtSteps.AppendText($"Шаг 2 (вставить k={k} перед '1'):\r\n[{string.Join(", ", s2)}]\r\n\r\n");
+            txtSteps.AppendText($"Шаг 2 (вставить k={k} перед '1'), {s2.Count} эл.:\r\n{Preview(s2)}\r\n\r\n");
 
             if (s2.Count >= 6)
             {
                 var s3 = _service.SwapFirstAndLast3(s2);
-                txtSteps.AppendText($"Шаг 3 (переставить 1-3 и последние 3):\r\n[{string.Join(", ", s3)}]\r\n");
+                txtSteps.AppendText($"Шаг 3 (переставить 1-3 и последние 3), {s3.Count} эл.:\r\n{Preview(s3)}\r\n");
             }
             else
             {
@@ -233,7 +291,6 @@ namespace labs_prog.Views
             }
         }
 
-        // Переключение видимости панели частоты
         private void rbFrequency_CheckedChanged(object sender, EventArgs e)
         {
             panelFreq.Visible = rbFrequency.Checked;
@@ -244,7 +301,6 @@ namespace labs_prog.Views
             panelFreq.Visible = rbFrequency.Checked;
         }
 
-        // Кнопка: Очистить лог исключений
         private void btnClearLog_Click(object sender, EventArgs e)
         {
             txtExceptions.Clear();
