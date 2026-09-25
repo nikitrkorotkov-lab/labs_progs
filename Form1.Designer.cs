@@ -2,8 +2,15 @@ namespace labs_prog
 {
     partial class Form1
     {
+        /// <summary>
+        /// Обязательная переменная конструктора.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -13,6 +20,12 @@ namespace labs_prog
             base.Dispose(disposing);
         }
 
+        #region Код, автоматически созданный конструктором форм Windows
+
+        /// <summary>
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
+        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -62,6 +75,9 @@ namespace labs_prog
             this.grpGlobalLog.SuspendLayout();
             this.SuspendLayout();
 
+            //
+            // menuStrip1
+            //
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
             this.menuLabs});
@@ -70,15 +86,21 @@ namespace labs_prog
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-
+            //
+            // menuFile
+            //
             this.menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuExit});
             this.menuFile.Name = "menuFile";
             this.menuFile.Text = "Файл";
-
+            //
+            // menuExit
+            //
             this.menuExit.Name = "menuExit";
             this.menuExit.Text = "Выход";
-
+            //
+            // menuLabs
+            //
             this.menuLabs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuLab1,
             this.menuLab2,
@@ -87,7 +109,9 @@ namespace labs_prog
             this.menuLab5});
             this.menuLabs.Name = "menuLabs";
             this.menuLabs.Text = "Лабораторные работы";
-
+            //
+            // menuLab1..5
+            //
             this.menuLab1.Name = "menuLab1";
             this.menuLab1.Text = "Лабораторная №1";
             this.menuLab2.Name = "menuLab2";
@@ -99,6 +123,9 @@ namespace labs_prog
             this.menuLab5.Name = "menuLab5";
             this.menuLab5.Text = "Лабораторная №5";
 
+            //
+            // statusStrip1
+            //
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusProcessLabel,
             this.statusProcessName,
@@ -109,30 +136,41 @@ namespace labs_prog
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 2;
-
+            //
+            // statusProcessLabel / statusProcessName
+            //
             this.statusProcessLabel.Name = "statusProcessLabel";
             this.statusProcessLabel.Text = "Процесс:";
             this.statusProcessName.Name = "statusProcessName";
             this.statusProcessName.Text = "Ожидание";
             this.statusProcessName.Spring = false;
             this.statusProcessName.AutoSize = true;
-
+            //
+            // statusProgress
+            //
             this.statusProgress.Name = "statusProgress";
             this.statusProgress.Size = new System.Drawing.Size(150, 16);
-
+            //
+            // statusDateTimeLabel / statusDateTime
+            //
             this.statusDateTimeLabel.Name = "statusDateTimeLabel";
             this.statusDateTimeLabel.Text = "Дата/время:";
             this.statusDateTime.Name = "statusDateTime";
             this.statusDateTime.Text = "—";
             this.statusDateTime.AutoSize = true;
 
+            //
+            // grpGlobalLog
+            //
             this.grpGlobalLog.Controls.Add(this.txtGlobalExceptions);
             this.grpGlobalLog.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.grpGlobalLog.Height = 120;
             this.grpGlobalLog.Name = "grpGlobalLog";
             this.grpGlobalLog.TabStop = false;
             this.grpGlobalLog.Text = "Журнал необработанных исключений (главная форма + exceptions_log.txt)";
-
+            //
+            // txtGlobalExceptions
+            //
             this.txtGlobalExceptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtGlobalExceptions.Multiline = true;
             this.txtGlobalExceptions.ReadOnly = true;
@@ -142,6 +180,9 @@ namespace labs_prog
             this.txtGlobalExceptions.ForeColor = System.Drawing.Color.OrangeRed;
             this.txtGlobalExceptions.Name = "txtGlobalExceptions";
 
+            //
+            // tabControl
+            //
             this.tabControl.Controls.Add(this.tabLab1);
             this.tabControl.Controls.Add(this.tabLab2);
             this.tabControl.Controls.Add(this.tabLab3);
@@ -153,7 +194,9 @@ namespace labs_prog
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(800, 550);
             this.tabControl.TabIndex = 0;
-
+            //
+            // tabLab1
+            //
             this.tabLab1.Controls.Add(this.lab1Control);
             this.tabLab1.Location = new System.Drawing.Point(4, 22);
             this.tabLab1.Name = "tabLab1";
@@ -162,13 +205,17 @@ namespace labs_prog
             this.tabLab1.TabIndex = 0;
             this.tabLab1.Text = "Lab 1";
             this.tabLab1.UseVisualStyleBackColor = true;
-
+            //
+            // lab1Control
+            //
             this.lab1Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab1Control.Location = new System.Drawing.Point(3, 3);
             this.lab1Control.Name = "lab1Control";
             this.lab1Control.Size = new System.Drawing.Size(786, 518);
             this.lab1Control.TabIndex = 0;
-
+            //
+            // tabLab2
+            //
             this.tabLab2.Controls.Add(this.lab2Control);
             this.tabLab2.Location = new System.Drawing.Point(4, 22);
             this.tabLab2.Name = "tabLab2";
@@ -177,13 +224,17 @@ namespace labs_prog
             this.tabLab2.TabIndex = 1;
             this.tabLab2.Text = "Lab 2";
             this.tabLab2.UseVisualStyleBackColor = true;
-
+            //
+            // lab2Control
+            //
             this.lab2Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab2Control.Location = new System.Drawing.Point(3, 3);
             this.lab2Control.Name = "lab2Control";
             this.lab2Control.Size = new System.Drawing.Size(786, 518);
             this.lab2Control.TabIndex = 0;
-
+            //
+            // tabLab3
+            //
             this.tabLab3.Controls.Add(this.lab3Control);
             this.tabLab3.Location = new System.Drawing.Point(4, 22);
             this.tabLab3.Name = "tabLab3";
@@ -191,13 +242,17 @@ namespace labs_prog
             this.tabLab3.TabIndex = 2;
             this.tabLab3.Text = "Lab 3";
             this.tabLab3.UseVisualStyleBackColor = true;
-
+            //
+            // lab3Control
+            //
             this.lab3Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab3Control.Location = new System.Drawing.Point(3, 3);
             this.lab3Control.Name = "lab3Control";
             this.lab3Control.Size = new System.Drawing.Size(786, 518);
             this.lab3Control.TabIndex = 0;
-
+            //
+            // tabLab4
+            //
             this.tabLab4.Controls.Add(this.lab4Control);
             this.tabLab4.Location = new System.Drawing.Point(4, 22);
             this.tabLab4.Name = "tabLab4";
@@ -205,13 +260,17 @@ namespace labs_prog
             this.tabLab4.TabIndex = 3;
             this.tabLab4.Text = "Lab 4";
             this.tabLab4.UseVisualStyleBackColor = true;
-
+            //
+            // lab4Control
+            //
             this.lab4Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab4Control.Location = new System.Drawing.Point(3, 3);
             this.lab4Control.Name = "lab4Control";
             this.lab4Control.Size = new System.Drawing.Size(786, 518);
             this.lab4Control.TabIndex = 0;
-
+            //
+            // tabLab5
+            //
             this.tabLab5.Controls.Add(this.lab6Control);
             this.tabLab5.Location = new System.Drawing.Point(4, 22);
             this.tabLab5.Name = "tabLab5";
@@ -219,13 +278,17 @@ namespace labs_prog
             this.tabLab5.TabIndex = 4;
             this.tabLab5.Text = "Lab 5";
             this.tabLab5.UseVisualStyleBackColor = true;
-
+            //
+            // lab6Control
+            //
             this.lab6Control.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lab6Control.Location = new System.Drawing.Point(3, 3);
             this.lab6Control.Name = "lab6Control";
             this.lab6Control.Size = new System.Drawing.Size(786, 518);
             this.lab6Control.TabIndex = 0;
-
+            //
+            // Form1
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 750);
@@ -252,6 +315,8 @@ namespace labs_prog
             this.PerformLayout();
 
         }
+
+        #endregion
 
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabLab1;
@@ -286,7 +351,5 @@ namespace labs_prog
         private System.Windows.Forms.TextBox txtGlobalExceptions;
 
         private System.Windows.Forms.Timer timerClock;
-
-        #endregion
     }
 }
