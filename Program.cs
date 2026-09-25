@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +14,24 @@ namespace labs_prog
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // ── Глобальная обработка необработанных исключений (требование п.1) ──
+
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += (s, e) => ExceptionLogger.LogException(e.Exception);
+
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                if (e.ExceptionObject is Exception ex)
+                    ExceptionLogger.LogException(ex);
+            };
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                ExceptionLogger.LogException(e.Exception);
+                e.SetObserved();
+            };
+
             Application.Run(new Form1());
         }
     }
