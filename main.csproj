@@ -56,10 +56,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\AirLogger\AirLoggerRepository.cs" />
     <Compile Include="Services\Lab1\Lab1Service.cs" />
     <Compile Include="Services\Lab2\Lab2Service.cs" />
     <Compile Include="Services\Lab3\Lab3Service.cs" />
     <Compile Include="Services\Lab3\Lab3FractalService.cs" />
+    <Compile Include="Views\AirLoggerDbControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Views\Lab1Control.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -155,6 +159,17 @@
     <None Include="test_log3.txt" />
     <None Include="build_dll.bat" />
     <None Include="regex_test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lab2_SQL\01_create_db.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Lab2_SQL\02_seed_data.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Lab2_SQL\03_variant12_queries.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

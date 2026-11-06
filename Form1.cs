@@ -11,6 +11,7 @@ namespace labs_prog
             InitializeExceptionLogging();
             InitializeStatusBar();
             InitializeMainMenu();
+            InitializeAirLoggerDb();
         }
 
         /// <summary>Требование п.1: обработанные исключения фиксируются на главной
@@ -69,6 +70,18 @@ namespace labs_prog
             menuLab5.Click += (s, e) => tabControl.SelectedTab = tabLab5;
 
             menuExit.Click += (s, e) => Close();
+        }
+
+        /// <summary>ЛР2 (вариант 12): вкладка «БД AirLogger» с поиском, сортировкой и фильтрацией.</summary>
+        private void InitializeAirLoggerDb()
+        {
+            var page = new TabPage("БД AirLogger (ЛР2)");
+            page.Controls.Add(new Views.AirLoggerDbControl { Dock = DockStyle.Fill });
+            tabControl.TabPages.Add(page);
+
+            var item = new ToolStripMenuItem("БД AirLogger (ЛР2, вариант 12)");
+            item.Click += (s, e) => tabControl.SelectedTab = page;
+            menuLabs.DropDownItems.Add(item);
         }
     }
 }

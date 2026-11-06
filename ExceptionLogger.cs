@@ -6,12 +6,16 @@ namespace labs_prog
 {
     /// <summary>
     /// Глобальный логгер исключений (требование задания п.1).
+    /// Записывает в TextBox, в текстовый файл и (если задан DbWriter) в БД AirLogger.
     /// </summary>
     public static class ExceptionLogger
     {
         private static TextBox _logBox;
         private static string _logFilePath = "exceptions_log.txt";
         private static readonly object _fileLock = new object();
+
+        /// <summary>Обработчик записи исключения в БД (устанавливается при подключении к SQL Server).</summary>
+        public static Action<Exception> DbWriter { get; set; }
 
         public static void Initialize(TextBox logBox, string logFilePath = null)
         {
@@ -31,6 +35,21 @@ namespace labs_prog
 
             AppendToTextBox(entry);
             AppendToFile(entry);
+            AppendToDatabase(ex);
+        }
+
+        private static void AppendToDatabase(Exception ex)
+        {
+            var writer = DbWriter;
+            if (writer == null) return;
+            try
+            {
+                writer(ex);
+            }
+            catch
+            {
+                // БД недоступна: исключение уже записано в файл и TextBox
+            }
         }
 
         private static void AppendToTextBox(string entry)
